@@ -1,0 +1,70 @@
+//- .container
+//-     .row
+//-         .page-header
+//-             h2= title
+//-             big 电影
+
+//- nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+//- 	.container
+//- 		.navbar-header
+//- 			button.navbar-toggle.collapsed(data-toggle="collapse",data-target="#navbar") 
+//- 				span.sr-only Toggle
+//- 				span.icon-bar
+//- 				span.icon-bar
+//- 				span.icon-bar
+//- 			a.navbar-brand= title
+//- 		#navbar.navbar-collapse.collapse
+//- 			ul.nav.navbar-nav
+//- 				li.active
+//- 					a(href="/") 主页
+//- 				li
+//- 					a(href="/list") 电影列表
+//- 				li
+//- 					a(href="/admin/new") 添加记录
+//
+
+.container
+	.row
+		.page-header
+			h1= title
+			small 重度科幻迷
+					
+.navbar.navbar-default.navbar-fixed-bottom
+	.container
+		.navbar-header
+			a.navbar-brand(href="/") 科幻迷
+		p.navbar-text.navbar-right
+			a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
+			span &nbsp;|&nbsp;
+			a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
+			
+#signupModal.modal.fade
+	.modal-dialog
+		.modal-content
+			form(method="POST", action="/user/signup")
+				.modal-header 注册
+					.form-group
+						label(for="signupName") 用户名
+						input#signupName.form-control(name="user[name]", type="text")
+					.form-group
+						label(for="signupPassword") 密码
+						input#signupName.form-control(name="user[password]", type="password")
+				.modal-footer
+					button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+					button.btn.btn-success(type="submit") 提交
+					
+#signinModal.modal.fade
+	.modal-dialog
+		.modal-content
+			form(method="POST", action="/user/signup")
+				.modal-header 登录
+					.form-group
+						label(for="signinName") 用户名
+						input#signinName.form-control(name="user[name]", type="text")
+					.form-group
+						label(for="signinPassword") 密码
+						input#signinName.form-control(name="user[password]", type="password")
+				.modal-footer
+					button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+					button.btn.btn-success(type="submit") 提交
+					

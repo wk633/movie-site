@@ -1,0 +1,28 @@
+{
+  "name": "movie-project",
+  "version": "1.0.0",
+  "description": "电影",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node实战"
+  ],
+  "author": "wk",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "body-parser": "^1.14.1",
+    "bower": "^1.5.3",
+    "connect-livereload": "^0.6.0",
+    "express": "^4.13.3",
+    "gulp": "^3.9.1",
+    "gulp-express": "^0.3.5",
+    "jade": "^1.11.0",
+    "moment": "^2.10.6",
+    "mongoose": "^4.2.2",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {}
+}
