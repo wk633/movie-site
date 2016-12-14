@@ -79,58 +79,67 @@ app.post('/user/signup', function(req, res){
   var _user = req.body.user
   var response = res
   User.findOne({name: _user.name}).exec()
-      .then(
-        function(result){
-          if(result){
-            console.log(result)
-            return response.json({
-              "errHint": "username duplicate"
-            })
-          }else{
-            var user = new User(_user)
-            user.save(function(err, user_saved){
-              if(err){
-                return response.json(err)
-              }
-              console.log(user_saved)
-              return response.redirect('/admin/userlist')
-            })
-          }
-        },
-        function(err){
-          return response.json(err)
+    .then(
+      function(result){
+        if(result){
+          console.log(result)
+          return response.json({
+            "errHint": "username duplicate"
+          })
+        }else{
+          var user = new User(_user)
+          user.save(function(err, user_saved){
+            if(err){
+              return response.json(err)
+            }
+            console.log(user_saved)
+            return response.redirect('/admin/userlist')
+          })
         }
-      )
+      },
+      function(err){
+        return response.json(err)
+      }
+    )
 })
 
 app.post('/user/signin', function(request, response){
   var _user = request.body.user
-  User.findOne({name: _user.name}, function(err, result){
-    if(err){
-      return response.json(err)
-    }
-    if(result){
-      result.checkPassword(_user.password)
-            .then(
-              function(isMathced){
-                if(isMathced){
-                  console.log('password matched')
-                  return response.json({
-                    Matched: true
-                  })
-                }else{
-                  console.log('password not matched')
-                  return response.json({
-                    Matched: false
-                  })
-                }
-              },
-              function(err){
-                return response.json(err)
-              }
-            )
-    }
-  })
+  User
+    .findOne({name: _user.name}).exec()
+    .then(
+      function(result){
+        if(!result){
+          console.log('用户不存在')
+          return response.json({
+            'errHint': 'user does not exist'
+          })
+        }
+        result
+        .checkPassword(_user.password)
+        .then(
+          function(isMathced){
+            if(isMathced){
+              console.log('password matched')
+              return response.json({
+                Matched: true
+              })
+            }else{
+              console.log('password not matched')
+              return response.json({
+                Matched: false
+              })
+            }
+          },
+          function(err){
+            return response.json(err)
+          }
+        )
+      },
+      function(err){
+        return response.json(err)
+      }
+    )
 })
 
 app.get('/admin/userlist', function (req, res) {
