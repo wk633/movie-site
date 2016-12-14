@@ -78,26 +78,29 @@ app.get('/admin/new', function (req, res) {
 app.post('/user/signup', function(req, res){
   var _user = req.body.user
   var response = res
-  User.find({name: _user.name}, function(err,result){
-    if(err){
-      return response.json(err)
-    }
-    if(result.length > 0) {
-      console.log(result)
-      return response.json({
-        "errHint": "username duplicate"
-      })
-    }else{
-      var user = new User(_user)
-      user.save(function(err, user_saved){
-        if(err){
+  User.findOne({name: _user.name}).exec()
+      .then(
+        function(result){
+          if(result){
+            console.log(result)
+            return response.json({
+              "errHint": "username duplicate"
+            })
+          }else{
+            var user = new User(_user)
+            user.save(function(err, user_saved){
+              if(err){
+                return response.json(err)
+              }
+              console.log(user_saved)
+              return response.redirect('/admin/userlist')
+            })
+          }
+        },
+        function(err){
           return response.json(err)
         }
-        console.log(user_saved)
-        return response.redirect('/admin/userlist')
-      })
-    }
-  })
+      )
 })
 
 app.post('/user/signin', function(request, response){
