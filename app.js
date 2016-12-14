@@ -62,12 +62,14 @@ var emptyMovie = {
 app.get('/', function (req, res) {
   console.log('user in session')
   console.log(req.session.user)
-    Movie.fetch(function (err, movies) {
-        if (err) {
-            console.log(err);
-        }
-        res.render('index', {title:'电影-首页', movies: movies});
-    });
+  var _user = req.session.user
+  app.locals.user = _user
+  Movie.fetch(function (err, movies) {
+      if (err) {
+          console.log(err);
+      }
+      res.render('index', {title:'电影-首页', movies: movies});
+  });
 });
 app.get('/list', function (req, res) {
     Movie.fetch(function (err, movies) {
@@ -159,6 +161,11 @@ app.post('/user/signin', function(request, response){
         return response.json(err)
       }
     )
+})
+
+app.get('/logout', function(req,res){
+  delete req.session.user
+  res.redirect('/')
 })
 
 app.get('/admin/userlist', function (req, res) {
