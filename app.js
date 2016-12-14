@@ -80,7 +80,8 @@ app.post('/user/signup', function(req, res){
     if(err){
       console.log(err)
     }
-    res.redirect('/')
+    console.log(user_saved)
+    res.redirect('/admin/userlist')
   })
 })
 

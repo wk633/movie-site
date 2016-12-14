@@ -20,19 +20,21 @@ var MovieSchema = new mongoose.Schema({
 });
 
 MovieSchema.pre('save', function (next) {
+    var self = this
+    console.log(self)
     if (this.isNew) {
         this.meta.createAt = this.meta.updateAt = Date.now();
     } else {
         this.meta.updateAt = Date.now();
     }
-    bcrypt.hash('bacon', 10, function(err, hash){
-      if(err) {
-        console.log('err at user.js: ')
+    bcrypt.genSalt(10, function(err,salt){
+      if(err){
         console.log(err)
       }
-      console.log('this.password:', this.password)
-      this.password = hash;
-      next()
+      bcrypt.hash(self.password, salt, function(err, hash){
+        self.password = hash
+        next()
+      })
     })
 });
 
