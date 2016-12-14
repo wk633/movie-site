@@ -30,6 +30,7 @@ MovieSchema.pre('save', function (next) {
         console.log('err at user.js: ')
         console.log(err)
       }
+      console.log('this.password:', this.password)
       this.password = hash;
       next()
     })

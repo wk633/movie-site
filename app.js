@@ -80,10 +80,18 @@ app.post('/user/signup', function(req, res){
     if(err){
       console.log(err)
     }
-    console.log(user_saved)
+    res.redirect('/')
   })
 })
 
+app.get('/admin/userlist', function (req, res) {
+    User.fetch(function (err, users) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('userlist', {title:'用户-列表', users: users});
+    });
+});
 
 // 逻辑控制:插入
 app.post('/admin/control/new', function (req, res) {
