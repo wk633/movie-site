@@ -57,13 +57,18 @@ var emptyMovie = {
     summary: ""
 };
 
+app.use(function(req, res, next){
+  var _user = req.session.user
+  app.locals.user = _user
+  next()
+})
+
 // 路由
 // 用户界面
 app.get('/', function (req, res) {
   console.log('user in session')
   console.log(req.session.user)
-  var _user = req.session.user
-  app.locals.user = _user
+
   Movie.fetch(function (err, movies) {
       if (err) {
           console.log(err);
