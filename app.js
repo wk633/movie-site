@@ -3,6 +3,7 @@ var jade = require('jade');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./models/movie');
+var User = require('./models/user.js');
 
 // 静态资源请求路径
 var path = require('path');
@@ -24,10 +25,8 @@ app.use(express.static(path.join(__dirname, 'public/')));
 
 // 表单数据格式化
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true })); // 必须设为true否则body里的层级对象无法深度解析
 
-// app.use(require('connect-livereload')())
 
 var emptyMovie = {
     title: "",
@@ -73,6 +72,17 @@ app.get('/admin/new', function (req, res) {
 
 
 
+// sign up
+app.post('/user/signup', function(req, res){
+  var _user = req.body.user
+  var user = new User(_user)
+  user.save(function(err, user_saved){
+    if(err){
+      console.log(err)
+    }
+    console.log(user_saved)
+  })
+})
 
 
 // 逻辑控制:插入
