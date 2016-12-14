@@ -100,6 +100,36 @@ app.post('/user/signup', function(req, res){
   })
 })
 
+app.post('/user/signin', function(request, response){
+  var _user = request.body.user
+  User.findOne({name: _user.name}, function(err, result){
+    if(err){
+      return response.json(err)
+    }
+    if(result){
+      result.checkPassword(_user.password)
+            .then(
+              function(isMathced){
+                if(isMathced){
+                  console.log('password matched')
+                  return response.json({
+                    Matched: true
+                  })
+                }else{
+                  console.log('password not matched')
+                  return response.json({
+                    Matched: false
+                  })
+                }
+              },
+              function(err){
+                return response.json(err)
+              }
+            )
+    }
+  })
+})
+
 app.get('/admin/userlist', function (req, res) {
     User.fetch(function (err, users) {
         if (err) {

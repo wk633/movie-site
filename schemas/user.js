@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-var MovieSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
     name: {
       type: String,
       unique: true
@@ -19,7 +19,7 @@ var MovieSchema = new mongoose.Schema({
     }
 });
 
-MovieSchema.pre('save', function (next) {
+UserSchema.pre('save', function (next) {
     var self = this
     console.log(self)
     if (this.isNew) {
@@ -40,7 +40,13 @@ MovieSchema.pre('save', function (next) {
     })
 });
 
-MovieSchema.statics = {
+UserSchema.methods = {
+  checkPassword: function(_password){
+    return bcrypt.compare(_password, this.password)
+  }
+}
+
+UserSchema.statics = {
     fetch: function (cb) {
         return this
             .find({})
@@ -54,4 +60,4 @@ MovieSchema.statics = {
     }
 };
 
-module.exports = MovieSchema;
+module.exports = UserSchema;
