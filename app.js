@@ -3,6 +3,10 @@ var jade = require('jade');
 var mongoose = require('mongoose');
 var bluebird = require('bluebird')
 var _ = require('underscore');
+
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+
 var Movie = require('./models/movie');
 var User = require('./models/user.js');
 
@@ -12,11 +16,14 @@ var bodyParser= require('body-parser');
 
 var app = express();
 var port = process.env.PORT || 3100;
+const dbURL = 'mongodb://localhost:27017/movie';
+
+
 app.locals.moment = require('moment'); // 在jade模版list中用了moment
 
 mongoose.Promise = bluebird;
 // movie为mongodb的一个数据库
-mongoose.connect('mongodb://localhost:27017/movie')
+mongoose.connect(dbURL)
 
 // 设定视图文件的目录
 app.set('views', './views/pages');
@@ -29,6 +36,16 @@ app.use(express.static(path.join(__dirname, 'public/')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // 必须设为true否则body里的层级对象无法深度解析
 
+// session持久化
+app.use(session({
+  secret: 'heiheihei',
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    url: dbURL,
+    collection: 'mysession'
+  })
+}))
 
 var emptyMovie = {
     title: "",
@@ -43,6 +60,8 @@ var emptyMovie = {
 // 路由
 // 用户界面
 app.get('/', function (req, res) {
+  console.log('user in session')
+  console.log(req.session.user)
     Movie.fetch(function (err, movies) {
         if (err) {
             console.log(err);
@@ -75,9 +94,8 @@ app.get('/admin/new', function (req, res) {
 
 
 // sign up
-app.post('/user/signup', function(req, res){
-  var _user = req.body.user
-  var response = res
+app.post('/user/signup', function(request, response){
+  var _user = request.body.user
   User.findOne({name: _user.name}).exec()
     .then(
       function(result){
@@ -121,6 +139,7 @@ app.post('/user/signin', function(request, response){
           function(isMathced){
             if(isMathced){
               console.log('password matched')
+              request.session.user = result
               return response.json({
                 Matched: true
               })
