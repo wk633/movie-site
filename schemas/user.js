@@ -31,8 +31,10 @@ MovieSchema.pre('save', function (next) {
       if(err){
         console.log(err)
       }
+      console.log('salt is: ', salt)
       bcrypt.hash(self.password, salt, function(err, hash){
         self.password = hash
+        console.log('password after hash is: ', hash)
         next()
       })
     })

@@ -82,7 +82,7 @@ app.post('/user/signup', function(req, res){
     if(err){
       return response.json(err)
     }
-    if(result) {
+    if(result.length > 0) {
       console.log(result)
       return response.json({
         "errHint": "username duplicate"
