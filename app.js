@@ -1,6 +1,7 @@
 var express = require('express');
 var jade = require('jade');
 var mongoose = require('mongoose');
+var bluebird = require('bluebird')
 var _ = require('underscore');
 var Movie = require('./models/movie');
 var User = require('./models/user.js');
@@ -13,6 +14,7 @@ var app = express();
 var port = process.env.PORT || 3100;
 app.locals.moment = require('moment'); // 在jade模版list中用了moment
 
+mongoose.Promise = bluebird;
 // movie为mongodb的一个数据库
 mongoose.connect('mongodb://localhost:27017/movie')
 
