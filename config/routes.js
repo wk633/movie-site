@@ -7,8 +7,7 @@ module.exports = function(app){
 
   // pre handle user
   app.use(function(req, res, next){
-    var _user = req.session.user
-    app.locals.user = _user
+    app.locals.user = req.session.user
     next()
   })
 
@@ -18,6 +17,8 @@ module.exports = function(app){
   // user
   app.post('/user/signup', User.signup)
   app.post('/user/signin', User.signin)
+  app.get('/signup', User.showSignup)
+  app.get('/signin', User.showSignin)
   app.get('/logout', User.logout)
   app.get('/admin/userlist', User.userlist)
 
