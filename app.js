@@ -2,7 +2,7 @@ var express = require('express');
 var jade = require('jade');
 var mongoose = require('mongoose');
 var bluebird = require('bluebird')
-
+var morgan = require('morgan');
 
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -45,6 +45,14 @@ app.use(session({
   })
 }))
 
+if('development' === app.get('env')){
+  console.log('process.env.server_ENV: ', process.env.server_ENV)
+  console.log('app.get("env")', app.get('env'))
+  console.log('in development environment')
+  app.set('showStackError', true)
+  app.use(morgan(':method :url :status'))
+  mongoose.set('debug', true)
+}
 
 app.use(function(req, res, next){
   var _user = req.session.user
