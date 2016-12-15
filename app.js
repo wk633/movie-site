@@ -13,7 +13,7 @@ var path = require('path');
 var bodyParser= require('body-parser');
 
 var app = express();
-var port = process.env.PORT || 3100;
+var port = process.env.PORT || 3200;
 const dbURL = 'mongodb://localhost:27017/movie';
 
 
@@ -24,7 +24,7 @@ mongoose.Promise = bluebird;
 mongoose.connect(dbURL)
 
 // 设定视图文件的目录
-app.set('views', './views/pages');
+app.set('views', './app/views/pages');
 app.set('view engine', 'jade');
 
 // 静态资源请求路径
@@ -54,11 +54,6 @@ if('development' === app.get('env')){
   mongoose.set('debug', true)
 }
 
-app.use(function(req, res, next){
-  var _user = req.session.user
-  app.locals.user = _user
-  return next()
-})
 
 require('./config/routes')(app)
 
