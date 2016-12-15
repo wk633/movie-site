@@ -8,6 +8,7 @@ module.exports = function(app){
   // pre handle user
   app.use(function(req, res, next){
     app.locals.user = req.session.user
+
     next()
   })
 
@@ -20,14 +21,14 @@ module.exports = function(app){
   app.get('/signup', User.showSignup)
   app.get('/signin', User.showSignin)
   app.get('/logout', User.logout)
-  app.get('/admin/userlist', User.userlist)
+  app.get('/admin/userlist', User.signinRequired, User.adminRequired, User.userlist)
 
   // movie
   app.get('/detail/:id', Movie.detail)
-  app.get('/admin/new', Movie.new) // 录入界面
-  app.get('/admin/update/:id', Movie.update)
-  app.get('/admin/movie', Movie.record) // 录入提交
-  app.get('/admin/list', Movie.list)
-  app.delete('/admin/list', Movie.delete)
+  app.get('/admin/movie/new',User.signinRequired, User.adminRequired, Movie.new) // 录入界面
+  app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired ,Movie.update)
+  app.post('/admin/movie', Movie.record) // 录入提交
+  app.get('/admin/list', User.signinRequired, User.adminRequired, Movie.list) // 查看用户
+  app.delete('/admin/movie/delete', Movie.delete)
 
 }

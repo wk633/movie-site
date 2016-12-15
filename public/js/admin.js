@@ -7,7 +7,7 @@ $(function () {
 
         $.ajax({
             type: 'DELETE',
-            url: '/admin/control/delete?id=' + id
+            url: '/admin/movie/delete?id=' + id
         })
         .done(function (results) {
             if (results.success) {
