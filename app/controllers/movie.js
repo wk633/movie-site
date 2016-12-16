@@ -20,11 +20,11 @@ exports.detail = function(req, res) {
 	Movie.findById(id, function(err, movie) {
 		console.log('movie in movie.js:')
 		console.log(movie);
-
 		Comment
 			.find({movie: id})
 			.populate('from','name') // 只返回User的name
-			.exec()
+			.populate('reply.from reply.to', 'name')
+			.exec() // 执行query，并返回一个promise对象
 			.then(
 				function(doc){
 					console.log('doc in movie.js: ')

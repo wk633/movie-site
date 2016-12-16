@@ -33,14 +33,14 @@ block content
                               p #{reply.content}
                     hr
               
+            // 为了设置一个锚点，点击头像就能评论
             #comments
               form#commentForm(method="POST", action="/user/comment")
                 input(type="hidden", name="comment[movie]", value="#{movie._id}")
                 if user
                   input(type="hidden", name="comment[from]", value="#{user._id}")
-                .form-group
-                  textarea.form-control(name="comment[content]", row="3")
-                if user
+                  .form-group
+                    textarea.form-control(name="comment[content]", row="3")
                   button.btn.btn-primary(type='submit') 提交
                 else
                   a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论      
@@ -58,3 +58,4 @@ block content
           dd #{movie.year}
           dt 简介
           dd #{movie.summary}
+  script(src="/js/detail.js")

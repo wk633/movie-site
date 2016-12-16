@@ -1,5 +1,4 @@
 $(function () {
-    console.log('heiheihei')
     $('.del').click(function (e) {
         var target = $(e.target);
         var id = target.data('id'); // $(xx).data('mm')是jquery的方法
