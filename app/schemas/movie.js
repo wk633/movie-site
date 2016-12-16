@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema
+var ObjectId = Schema.Types.ObjectId
 
-var MovieSchema = new mongoose.Schema({
+var MovieSchema = new Schema({
     director: String,
     title: String,
     language: String,
@@ -8,6 +10,10 @@ var MovieSchema = new mongoose.Schema({
     year: String,
     summary: String,
     poster: String,
+    category: {
+      type: ObjectId,
+      ref: 'Category' // ref指向的是model的名字
+    },
     meta: {
         createAt: {
             type: Date,
