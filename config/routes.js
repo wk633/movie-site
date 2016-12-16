@@ -1,6 +1,7 @@
 var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
+var Comment = require('../app/controllers/comment')
 
 // 路由
 module.exports = function(app){
@@ -24,7 +25,7 @@ module.exports = function(app){
   app.get('/admin/userlist', User.signinRequired, User.adminRequired, User.userlist)
 
   // movie
-  app.get('/detail/:id', Movie.detail)
+  app.get('/movie/:id', Movie.detail)
   app.get('/admin/movie/new',User.signinRequired, User.adminRequired, Movie.new) // 录入界面
   app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired ,Movie.update)
   app.post('/admin/movie',User.signinRequired, User.adminRequired, Movie.record) // 录入提交
@@ -32,6 +33,7 @@ module.exports = function(app){
   app.delete('/admin/movie/delete', Movie.delete)
 
   // Comment
+  app.post('/user/comment',User.signinRequired, Comment.save)
 
 
 }

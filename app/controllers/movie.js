@@ -1,4 +1,5 @@
 var Movie = require('../models/movie');
+var Comment = require('../models/comment');
 var _ = require('underscore');
 
 exports.list = function(req, res) {
@@ -17,11 +18,25 @@ exports.detail = function(req, res) {
 	var id = req.params.id;
 
 	Movie.findById(id, function(err, movie) {
+		console.log('movie in movie.js:')
 		console.log(movie);
-		res.render('detail', {
-			title: '电影-详情',
-			movie: movie
-		});
+
+		Comment
+			.find({movie: id})
+			.populate('from','name') // 只返回User的name
+			.exec()
+			.then(
+				function(doc){
+					console.log('doc in movie.js: ')
+					console.log(doc)
+					res.render('detail', {
+						title: '电影详情页',
+						movie: movie,
+						comments: doc
+					})
+				},
+				function(err){console.log(err)}
+			)
 	})
 }
 
