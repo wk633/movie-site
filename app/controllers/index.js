@@ -24,24 +24,37 @@ exports.search = function(req, res){
   // 分页测试 http://localhost:3200/results?category_id=5855350d8dac3461dcd6a00a&page=0
   var category_id = req.query.category_id
   var page = req.query.page
-  var index = page * 4
-  Category
-  .find({_id: category_id})
-  .populate({
-    path: 'movies',
-    options: {limit: 4, skip: index}})
-  .exec()
+  const itemsPerPage = 4
+  var index = page * itemsPerPage
+
+  var _category = Category.findOne({_id: category_id})
+
+  _category.exec()
   .then(
-    function(categories){
-      var category = categories[0] || {}
-      console.log('movies under this category')
-      console.log(category.movies)
-      res.render('results', {
-        title: '搜索结果页面',
-        keyword: category.name,
-        category: category
-      })
+    function(category){
+      var totalPage = category.movies.length
+      _category
+      .populate({
+        path: 'movies',
+        options: {limit: itemsPerPage, skip: index}})
+      .exec()
+      .then(
+        function(category){
+          res.render('results', {
+            title: '搜索结果页面',
+            keyword: category.name,
+            category: category,
+            currentPage: page,
+            query: 'category_id=' + category._id,
+            totalPage: Math.ceil(totalPage/itemsPerPage)
+          })
+        },
+        function(err){console.log(err)}
+      )
     },
     function(err){console.log(err)}
   )
+
+
+
 }
