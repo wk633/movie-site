@@ -33,7 +33,7 @@ $(function() {
           $('#inputTitle').val(data.title)
           $('#inputDoctor').val(data.directors[0].name)
           $('#inputCountry').val(data.countries[0])
-          $('#inputPoster').val(data.images.medium)
+          $('#inputPoster').val(data.images.large)
           $('#inputYear').val(data.year)
           $('#inputSummary').val(data.summary)
         }
