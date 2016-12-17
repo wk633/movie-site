@@ -17,6 +17,9 @@ module.exports = function(app){
   // index page
   app.get('/', Index.index)
 
+  // results
+  app.get('/results', Index.search)
+
   // user
   app.post('/user/signup', User.signup)
   app.post('/user/signin', User.signin)
