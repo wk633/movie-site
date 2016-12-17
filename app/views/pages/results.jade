@@ -7,8 +7,8 @@ block content
         .panel-heading
           h3 #{keyword}
         .panel-body
-          if category.movies && category.movies.length > 0          
-            each item in category.movies
+          if movies && movies.length > 0          
+            each item in movies
               .col-sm-3
                 .thumbnail
                   a(href="/movie/#{item._id}")

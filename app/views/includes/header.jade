@@ -2,10 +2,17 @@
 
 .container
 	.row
-		.page-header
+		.page-header.clearfix
 			h1= title
-			small 电影迷
-					
+			.col-sm-4
+				small 电影迷
+			.col-sm-8
+				form(method="GET", action="/results")
+					.input-group.col-sm-4.pull-right
+						input.form-control(type="text", name="query")
+						span.input-group-btn
+							button.btn.btn-default(type="submit") 搜索
+							
 .navbar.navbar-default.navbar-fixed-bottom
 	.container
 		.navbar-header
