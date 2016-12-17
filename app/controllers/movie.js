@@ -73,6 +73,7 @@ exports.record = function(req, res) {
 		var id = movieObj._id;
 		var _movie;
 		if (id) {
+			// 电影已经存在，更新记录的逻辑
 			Movie.findById(id, function(err, movie) {
 				if (err) {
 					console.log(err);
@@ -82,22 +83,29 @@ exports.record = function(req, res) {
 					if (err) {
 						console.log(err);
 					}
+					// todo 修改分类信息
 					res.redirect('/movie/' + movie._id);
 				});
 			});
-		} else {
+		}
+		else {
+			// 是一部新电影，新建电影的逻辑
 			_movie = new Movie(movieObj);
 			var categoryId = movieObj.category
-			_movie.save(function(err, movie) {
-				if (err) {
-					console.log(err);
-				}
-				Category
-					.findById({_id: categoryId})
-					.then(
-						function(doc){
-							doc.movies.push(movie._id)
-							doc
+			var categoryName = movieObj.categoryName
+
+			_movie
+			.save()
+			.then(
+				function(movie){
+					if(categoryId){
+						// 选了数据库里的电影类型
+						Category
+						.findById({_id: categoryId})
+						.then(
+							function(doc){
+								doc.movies.push(movie._id)
+								doc
 								.save()
 								.then(
 									function(){
@@ -105,10 +113,38 @@ exports.record = function(req, res) {
 									},
 									function(err){console.log(err)}
 								)
-						},
-						function(err){console.log(err)}
-					)
-			});
+							},
+							function(err){console.log(err)}
+						)
+					}
+					else if(categoryName){
+						// 需要新建电影类型
+						var category = new Category({
+							name: categoryName,
+							movies: [movie._id]
+						})
+						category
+						.save()
+						.then(
+							function(category){
+								// 再更新下该电影的分类
+								movie.category = category._id
+								movie
+								.save()
+								.then(
+									function(doc){
+										res.redirect('/movie/' + doc._id);
+									},
+									function(err){console.log(err)}
+								)
+							},
+							function(err){console.log(err)}
+						)
+					}
+
+				},
+				function(err){console.log(err)}
+			)
 		}
 	}
 	// 逻辑控制:更新
