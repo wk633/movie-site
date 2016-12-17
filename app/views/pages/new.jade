@@ -4,6 +4,11 @@ block content
   .container
     .row
       form.form-horizontal(method="post", action="/admin/movie")
+        .form-group
+          label.col-sm-2.control-label(for="douban") 豆瓣同步
+          .col-sm-10
+            input#douban.form-control(type="text")
+        
         if movie._id
           input(type="hidden", name="movie[_id]", value=movie._id)
         .form-group
@@ -50,3 +55,4 @@ block content
             input#inputSummary.form-control(type="text", name="movie[summary]", value=movie.summary)
         .col-sm-offset-2.col-sm-10
           button.btn.btn-primary(type="submit") 提交
+  script(src="/js/admin.js")
