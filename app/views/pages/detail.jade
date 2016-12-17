@@ -32,7 +32,7 @@ block content
                                 | #{reply.to.name}:
                               p #{reply.content}
                     hr
-              
+
             // 为了设置一个锚点，点击头像就能评论
             #comments
               form#commentForm(method="POST", action="/user/comment")
@@ -46,6 +46,8 @@ block content
                   a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论      
       .col-md-5
         dl.dl-horizontal
+          dt 电影分类
+          dd #{movie.category.name}
           dt 电影名字
           dd #{movie.title}
           dt 导演

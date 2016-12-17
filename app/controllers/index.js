@@ -8,6 +8,9 @@ exports.index = function(req, res){
     .exec()
     .then(
       function(doc){
+        console.log('doc:')
+        console.log(doc.length)
+        console.log(doc)
         res.render('index', {
           title: 'imooc 首页',
           categories: doc
@@ -15,11 +18,4 @@ exports.index = function(req, res){
       },
       function(err){console.log(err)}
     )
-
-  Movie.fetch(function (err, movies) {
-      if (err) {
-          console.log(err);
-      }
-      res.render('index', {title:'电影-首页', movies: movies});
-  });
 }
