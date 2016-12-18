@@ -21,6 +21,13 @@ exports.detail = function(req, res) {
 	var id = req.params.id;
 
 	Movie
+	.update({_id: id}, {$inc: {pv: 1}})
+	.then(
+		function(){},
+		function(err){console.log(err)}
+	)
+	
+	Movie
 	.findOne({_id: id})
 	.populate('category','name _id')
 	.exec()

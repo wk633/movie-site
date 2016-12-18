@@ -14,6 +14,10 @@ var MovieSchema = new Schema({
       type: ObjectId,
       ref: 'Category' // ref指向的是model的名字
     },
+    pv: {
+      type: Number,
+      default: 0
+    },
     meta: {
         createAt: {
             type: Date,
