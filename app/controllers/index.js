@@ -60,7 +60,7 @@ exports.search = function(req, res){
   else {
     // 执行电影搜索，来自搜索框
     Movie
-    .find({title: query}, null, {limit: itemsPerPage, skip: index}).exec()
+    .find({title: new RegExp('.*'+query+'.*')}, null, {limit: itemsPerPage, skip: index}).exec()
     .then(
       function(movies){
         res.render('results', {
