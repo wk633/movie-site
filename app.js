@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public/')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // 必须设为true否则body里的层级对象无法深度解析
 
+app.use(require('connect-multiparty')());
+
 // session持久化
 app.use(session({
   secret: 'heiheihei',

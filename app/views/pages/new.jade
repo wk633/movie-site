@@ -3,7 +3,7 @@ extend ../layout
 block content
   .container
     .row
-      form.form-horizontal(method="post", action="/admin/movie")
+      form.form-horizontal(method="post", action="/admin/movie", enctype="multipart/form-data")
         .form-group
           label.col-sm-2.control-label(for="douban") 豆瓣同步
           .col-sm-10
@@ -42,9 +42,15 @@ block content
           .col-sm-10
             input#inputLanguage.form-control(type="text", name="movie[language]", value=movie.language)
         .form-group
-          label.col-sm-2.control-label(for="inputPoster") 海报
+          label.col-sm-2.control-label(for="inputPoster") 海报地址
           .col-sm-10
             input#inputPoster.form-control(type="text", name="movie[poster]", value=movie.poster)
+        
+        .form-group
+          label.col-sm-2.control-label(for="uploadPoster") 海报上传
+          .col-sm-10
+            input#uploadPoster(type="file", name="uploadPoster")
+        
         .form-group
           label.col-sm-2.control-label(for="inputYear") 上映年份
           .col-sm-10
