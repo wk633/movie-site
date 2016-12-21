@@ -11,6 +11,24 @@ $ npm install
 $ gulp
 ```
 
+
+
+### sample_db/
+
+This file provide the mongodb data in my computer, it may be helpful for you to run this program
+
+```bash
+mongoresotore -d movie /sample_db_file_path
+```
+
+
+
+### Online access
+
+http://www.wk633.com:3211/
+
+
+
 ### Future plan
 
 1. 全面promise化
