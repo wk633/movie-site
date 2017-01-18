@@ -11,13 +11,18 @@ exports.index = function(req, res){
       console.log('doc:')
       console.log(doc.length)
       console.log(doc)
+      res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.header("Pragma", "no-cache");
+      res.header("Expires", 0);
       res.render('index', {
         title: '电影网 首页',
         categories: doc
       })
-    },
-    function(err){console.log(err)}
+    }
   )
+  .catch(function(err){
+    console.log(err)
+  })
 }
 
 exports.search = function(req, res){
